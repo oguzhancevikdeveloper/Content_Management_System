@@ -58,15 +58,19 @@ public class UserService : IUserService
     {
         var contentList = await _userRepository.GetUserContentAsync(userId);
 
-        if (contentList == null || !contentList.Any()) return Response<IEnumerable<ContentDto>>.Fail("No content found for the user.", StatusCodes.Status404NotFound,true);
+        if (contentList == null || !contentList.Any()) return Response<IEnumerable<ContentDto>>.Fail("No content found for the user.", StatusCodes.Status404NotFound, true);
 
         var contentDtoList = contentList.Adapt<IEnumerable<ContentDto>>();
         return Response<IEnumerable<ContentDto>>.Success(contentDtoList, StatusCodes.Status200OK);
     }
 
-    public async Task<Response<NoDataDto>> UpdateUserAsync(Domain.Models.User.User user)
+    public async Task<Response<NoDataDto>> UpdateUserAsync(int userId, UserDto userDto)
     {
-        await _userRepository.UpdateUserAsync(user);
+        var existingUser = await _userRepository.GetUserByIdAsync(userId);
+        if (existingUser == null) return Response<NoDataDto>.Fail("User not found", StatusCodes.Status404NotFound, true);
+        userDto.Adapt(existingUser);
+        await _userRepository.UpdateUserAsync(existingUser);
+
         return Response<NoDataDto>.Success(StatusCodes.Status200OK);
     }
 }
