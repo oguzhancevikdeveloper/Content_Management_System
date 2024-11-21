@@ -1,4 +1,6 @@
-﻿namespace CMS.Domain.Models.Content;
+﻿using CMS.Domain.Models.User;
+
+namespace CMS.Domain.Models.Content;
 
 public class Content
 {
@@ -11,5 +13,6 @@ public class Content
 
     public Category.Category  Category { get; set; }
     public ICollection<ContentVariant> Variants { get; set; }
+    public ICollection<UserContent> UserContents { get; set; }
 }
 

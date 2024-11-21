@@ -12,4 +12,10 @@ public class AppDbContext : DbContext
     public DbSet<ContentVariant> ContentVariants { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserContent> UserContents { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }

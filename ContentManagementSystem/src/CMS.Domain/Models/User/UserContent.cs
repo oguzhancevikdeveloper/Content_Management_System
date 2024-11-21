@@ -4,6 +4,7 @@ namespace CMS.Domain.Models.User;
 
 public class UserContent
 {
+    public int Id { get; set; }
     public int UserId { get; set; }
     public int ContentId { get; set; } 
     public int ContentVariantId { get; set; } 
