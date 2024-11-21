@@ -3,6 +3,7 @@ using CMS.Domain.Repositories.Generic;
 using CMS.Domain.Repositories.User;
 using CMS.Domain.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CMS.Infrastructure.Repositories.User;
 
@@ -49,13 +50,14 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public async Task<IEnumerable<Content>> GetUserContentAsync(int userId)
+    public async Task<IEnumerable<Domain.Models.Content.Content>> GetUserContentAsync(int userId)
     {
         var user = await _genericRepository.Where(x => x.Id == userId)
             .Include(u => u.UserContents)
             .ThenInclude(uc => uc.Content)
             .FirstOrDefaultAsync();
-        if(user == null || user.UserContents == null || !user.UserContents.Any()) return Enumerable.Empty<Content>();
+
+        if(user == null || user.UserContents == null || !user.UserContents.Any()) return Enumerable.Empty<Domain.Models.Content.Content>();
 
         return user.UserContents.Select(uc => uc.Content).ToList();
     }

@@ -10,5 +10,5 @@ public interface IUserRepository
     Task AddUserAsync(Models.User.User user);
     Task UpdateUserAsync(Models.User.User user);
     Task DeleteUserAsync(int userId);
-    Task<IEnumerable<Content>> GetUserContentAsync(int userId);
+    Task<IEnumerable<Models.Content.Content>> GetUserContentAsync(int userId);
 }
