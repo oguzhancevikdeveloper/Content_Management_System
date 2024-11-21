@@ -1,6 +1,4 @@
-﻿using CMS.Domain.Models.Content;
-
-namespace CMS.Domain.Repositories.User;
+﻿namespace CMS.Domain.Repositories.User;
 
 public interface IUserRepository
 {
