@@ -1,9 +1,7 @@
-﻿using CMS.Domain.Models.Content;
-using CMS.Domain.Repositories.Generic;
+﻿using CMS.Domain.Repositories.Generic;
 using CMS.Domain.Repositories.User;
 using CMS.Domain.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CMS.Infrastructure.Repositories.User;
 

@@ -47,9 +47,9 @@ public class ContentRepository : IContentRepository
         return content;
     }
 
-    public async Task<IEnumerable<Domain.Models.Content.Content>> GetContentsByCategoryAsync(string categoryName)
+    public async Task<IEnumerable<Domain.Models.Content.Content>> GetContentsByCategoryAsync(int categoryId)
     {
-        var contentList = await _genericRepository.Where(x => x.Category == categoryName).ToListAsync();
+        var contentList = await _genericRepository.Where(x => x.CategoryId == categoryId).ToListAsync();
         return contentList;
     }
 
