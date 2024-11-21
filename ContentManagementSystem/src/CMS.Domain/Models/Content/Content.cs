@@ -1,0 +1,12 @@
+﻿namespace CMS.Domain.Models.Content;
+
+public class Content
+{
+    public int Id { get; set; } 
+    public string Title { get; set; } 
+    public string Description { get; set; } 
+    public string Category { get; set; } 
+    public string Language { get; set; } 
+    public string ImageUrl { get; set; } 
+    public ICollection<ContentVariant> Variants { get; set; }
+}
