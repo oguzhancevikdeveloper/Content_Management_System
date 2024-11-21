@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\CMS.Shared\CMS.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
