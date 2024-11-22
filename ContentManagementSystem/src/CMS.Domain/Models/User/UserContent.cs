@@ -4,10 +4,15 @@ namespace CMS.Domain.Models.User;
 
 public class UserContent
 {
-    public int Id { get; set; }
-    public int UserId { get; set; }
-    public int ContentId { get; set; } 
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
+    public Guid ContentId { get; set; } 
 
     public Content.Content Content { get; set; }
     public User User { get; set; }
+
+    public UserContent()
+    {
+        Id = Guid.NewGuid();
+    }   
 }

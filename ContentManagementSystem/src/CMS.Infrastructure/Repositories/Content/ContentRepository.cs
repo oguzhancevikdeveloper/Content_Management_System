@@ -23,7 +23,7 @@ public class ContentRepository : IContentRepository
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task DeleteContentAsync(int contentId)
+    public async Task DeleteContentAsync(Guid contentId)
     {
         var content = await _genericRepository.GetByIdAsync(contentId);
         _genericRepository.Remove(content);
@@ -32,34 +32,34 @@ public class ContentRepository : IContentRepository
 
     public async Task<IEnumerable<Domain.Models.Content.Content>> GetAllContentsAsync()
     {
-        return await _genericRepository.GetAllAsync();
+        return await _genericRepository.Where(x => true).Include(c => c.Variants).ToListAsync();
     }
 
-    public async Task<Domain.Models.Content.Content> GetContentByIdAsync(int contentId)
+    public async Task<Domain.Models.Content.Content> GetContentByIdAsync(Guid contentId)
     {
-        var content = await _genericRepository.GetByIdAsync(contentId);
+        var content = await _genericRepository.Where(x => x.Id == contentId).Include(v => v.Variants).FirstOrDefaultAsync();
         return content;
     }
 
     public async Task<Domain.Models.Content.Content> GetContentByTitleAsync(string title)
     {
-        var content = await _genericRepository.Where(x => x.Title == title).FirstOrDefaultAsync();
+        var content = await _genericRepository.Where(x => x.Title == title).Include(v => v.Variants).FirstOrDefaultAsync();
         return content;
     }
 
-    public async Task<IEnumerable<Domain.Models.Content.Content>> GetContentsByCategoryAsync(int categoryId)
+    public async Task<IEnumerable<Domain.Models.Content.Content>> GetContentsByCategoryAsync(Guid categoryId)
     {
-        var contentList = await _genericRepository.Where(x => x.CategoryId == categoryId).ToListAsync();
+        var contentList = await _genericRepository.Where(x => x.CategoryId == categoryId).Include(v => v.Variants).ToListAsync();
         return contentList;
     }
 
     public async Task<IEnumerable<Domain.Models.Content.Content>> GetContentsByLanguageAsync(string language)
     {
-        var contentList = await _genericRepository.Where(x => x.Language == language).ToListAsync();
+        var contentList = await _genericRepository.Where(x => x.Language == language).Include(v => v.Variants).ToListAsync();
         return contentList;
     }
 
-    public async Task<IEnumerable<ContentVariant>> GetContentVariantsAsync(int contentId)
+    public async Task<IEnumerable<ContentVariant>> GetContentVariantsAsync(Guid contentId)
     {
         var content = await _genericRepository.Where(x => x.Id == contentId)
             .Include(c => c.Variants).FirstOrDefaultAsync();

@@ -17,7 +17,7 @@ public class CategoriesController : CustomBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategoryByIdAsync(int categoryId)
+    public async Task<IActionResult> GetCategoryByIdAsync(Guid categoryId)
     {
         return ActionResultInstance(await _categoryService.GetCategoryByIdAsync(categoryId));
     }
@@ -35,13 +35,13 @@ public class CategoriesController : CustomBaseController
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCategoryAsync(int categoryId, CategoryDto categoryDto)
+    public async Task<IActionResult> UpdateCategoryAsync(Guid categoryId, CategoryDto categoryDto)
     {
         return ActionResultInstance(await _categoryService.UpdateCategoryAsync(categoryId,categoryDto));
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteCategoryAsync(int categoryId)
+    public async Task<IActionResult> DeleteCategoryAsync(Guid categoryId)
     {
         return ActionResultInstance(await _categoryService.DeleteCategoryAsync(categoryId));
     }

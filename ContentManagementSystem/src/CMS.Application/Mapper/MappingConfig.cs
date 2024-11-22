@@ -17,7 +17,15 @@ public class MappingConfig
             .Map(dest => dest.ImageUrl, src => src.ImageUrl);
 
         TypeAdapterConfig<ContentVariantDto, ContentVariant>.NewConfig()
-            .Map(dest => dest.Variant, src => src.Variant)
-            .Map(dest => dest.ContentId, src => src.ContentId);
+            .Map(dest => dest.Variant, src => src.Variant);
+
+        TypeAdapterConfig<Content, ContentDto>
+            .NewConfig()
+            .Map(dest => dest.contentVariantDtos,
+                src => src.Variants.Adapt<List<ContentVariantDto>>());
+
+        TypeAdapterConfig<Content, ContentDto>
+            .NewConfig()
+            .Map(dest => dest.contentVariantDtos, src => src.Variants);
     }
 }

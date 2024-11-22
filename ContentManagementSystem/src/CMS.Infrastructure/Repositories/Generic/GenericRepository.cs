@@ -25,7 +25,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         return await _dbset.ToListAsync();
     }
-    public async Task<TEntity> GetByIdAsync(int id)
+    public async Task<TEntity> GetByIdAsync(Guid id)
     {
         var entity = await _dbset.FindAsync(id);
         if (entity != null) _context.Entry(entity).State = EntityState.Detached;

@@ -17,9 +17,7 @@ public class UserContentConfiguration : IEntityTypeConfiguration<UserContent>
             .WithMany(u => u.UserContents)
             .HasForeignKey(uc => uc.UserId);
 
-        builder.HasOne(uc => uc.Content)
-            .WithMany(c => c.UserContents)
-            .HasForeignKey(uc => uc.ContentId);
+
 
     }
 }

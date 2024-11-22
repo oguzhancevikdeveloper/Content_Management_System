@@ -17,7 +17,7 @@ public class ContentsController : CustomBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetContentById(int contentId)
+    public async Task<IActionResult> GetContentById(Guid contentId)
     {
         return ActionResultInstance(await _contentService.GetContentByIdAsync(contentId));
     }
@@ -29,31 +29,31 @@ public class ContentsController : CustomBaseController
     }
 
     [HttpPost("{userId}")]
-    public async Task<IActionResult> AddContent(int userId, [FromBody]ContentDto contentDto)
+    public async Task<IActionResult> AddContent(Guid userId, [FromBody]ContentDto contentDto)
     {
         return ActionResultInstance(await _contentService.AddContentAsync(userId, contentDto));
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateContent(int contentId,ContentDto contentDto)
+    public async Task<IActionResult> UpdateContent(Guid contentId,ContentDto contentDto)
     {
         return ActionResultInstance(await _contentService.UpdateContentAsync(contentId, contentDto));
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteContentAsync(int contentId)
+    public async Task<IActionResult> DeleteContentAsync(Guid contentId)
     {
         return ActionResultInstance(await _contentService.DeleteContentAsync(contentId));
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetContentVariants(int contentId)
+    public async Task<IActionResult> GetContentVariants(Guid contentId)
     {
         return ActionResultInstance(await _contentService.GetContentVariantsAsync(contentId));
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetContentsByCategoryAsync(int categoryId)
+    public async Task<IActionResult> GetContentsByCategoryAsync(Guid categoryId)
     {
         return ActionResultInstance(await _contentService.GetContentsByCategoryAsync(categoryId));
     }

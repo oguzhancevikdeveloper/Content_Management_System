@@ -24,7 +24,7 @@ public class CategoryService : ICategoryService
         return Response<NoDataDto>.Success(StatusCodes.Status201Created);
     }
 
-    public async Task<Response<NoDataDto>> DeleteCategoryAsync(int categoryId)
+    public async Task<Response<NoDataDto>> DeleteCategoryAsync(Guid categoryId)
     {
         var existingCategory = await _categoryRepository.GetCategoryByIdAsync(categoryId);  
         if (existingCategory == null) return Response<NoDataDto>.Fail("Category not found", StatusCodes.Status404NotFound,true);       
@@ -42,7 +42,7 @@ public class CategoryService : ICategoryService
         return Response<IEnumerable<CategoryDto>>.Success(categoryDtos, StatusCodes.Status200OK); 
     }
 
-    public async Task<Response<CategoryDto>> GetCategoryByIdAsync(int categoryId)
+    public async Task<Response<CategoryDto>> GetCategoryByIdAsync(Guid categoryId)
     {
         var category = await _categoryRepository.GetCategoryByIdAsync(categoryId); 
         if (category == null) return Response<CategoryDto>.Fail("Category not found", StatusCodes.Status404NotFound,true);        
@@ -51,7 +51,7 @@ public class CategoryService : ICategoryService
         return Response<CategoryDto>.Success(categoryDto, StatusCodes.Status200OK);
     }
 
-    public async Task<Response<NoDataDto>> UpdateCategoryAsync(int categoryId, CategoryDto categoryDto)
+    public async Task<Response<NoDataDto>> UpdateCategoryAsync(Guid categoryId, CategoryDto categoryDto)
     {
         var existingCategory = await _categoryRepository.GetCategoryByIdAsync(categoryId);  
         if (existingCategory == null) return Response<NoDataDto>.Fail("Category not found", StatusCodes.Status404NotFound,true);      

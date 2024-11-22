@@ -2,7 +2,5 @@
 
 public class ContentVariantDto
 {
-    public int Id { get; set; }
-    public string Variant { get; set; }
-    public int ContentId { get; set; }
+    public string Variant { get; set; } 
 }

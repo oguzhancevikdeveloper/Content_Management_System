@@ -21,7 +21,7 @@ public class CategoryRepository : ICategoryRepository
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task DeleteCategoryAsync(int categoryId)
+    public async Task DeleteCategoryAsync(Guid categoryId)
     {
         var category = await _categoryRepository.GetByIdAsync(categoryId);
         _categoryRepository.Remove(category);
@@ -33,7 +33,7 @@ public class CategoryRepository : ICategoryRepository
         return await _categoryRepository.GetAllAsync();
     }
 
-    public async Task<Domain.Models.Category.Category> GetCategoryByIdAsync(int categoryId)
+    public async Task<Domain.Models.Category.Category> GetCategoryByIdAsync(Guid categoryId)
     {
         return await _categoryRepository.GetByIdAsync(categoryId);
     }

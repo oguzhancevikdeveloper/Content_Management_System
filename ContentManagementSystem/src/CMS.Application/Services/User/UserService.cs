@@ -24,7 +24,7 @@ public class UserService : IUserService
         return Response<NoDataDto>.Success(StatusCodes.Status200OK);
     }
 
-    public async Task<Response<NoDataDto>> DeleteUserAsync(int userId)
+    public async Task<Response<NoDataDto>> DeleteUserAsync(Guid userId)
     {
         await _userRepository.DeleteUserAsync(userId);
         return Response<NoDataDto>.Success(StatusCodes.Status200OK);
@@ -46,7 +46,7 @@ public class UserService : IUserService
         return Response<UserDto>.Success(userDto, StatusCodes.Status200OK);
     }
 
-    public async Task<Response<UserDto>> GetUserByIdAsync(int userId)
+    public async Task<Response<UserDto>> GetUserByIdAsync(Guid userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null) return Response<UserDto>.Fail("User not a found", StatusCodes.Status404NotFound, true); ;
@@ -54,7 +54,7 @@ public class UserService : IUserService
         return Response<UserDto>.Success(userDto, StatusCodes.Status200OK); ;
     }
 
-    public async Task<Response<IEnumerable<ContentDto>>> GetUserContentAsync(int userId)
+    public async Task<Response<IEnumerable<ContentDto>>> GetUserContentAsync(Guid userId)
     {
         var contentList = await _userRepository.GetUserContentAsync(userId);
 
@@ -64,7 +64,7 @@ public class UserService : IUserService
         return Response<IEnumerable<ContentDto>>.Success(contentDtoList, StatusCodes.Status200OK);
     }
 
-    public async Task<Response<NoDataDto>> UpdateUserAsync(int userId, UserDto userDto)
+    public async Task<Response<NoDataDto>> UpdateUserAsync(Guid userId, UserDto userDto)
     {
         var existingUser = await _userRepository.GetUserByIdAsync(userId);
         if (existingUser == null) return Response<NoDataDto>.Fail("User not found", StatusCodes.Status404NotFound, true);

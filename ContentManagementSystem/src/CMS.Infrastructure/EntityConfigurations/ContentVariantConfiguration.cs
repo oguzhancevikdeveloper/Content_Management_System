@@ -10,10 +10,10 @@ internal class ContentVariantConfiguration : IEntityTypeConfiguration<ContentVar
     {
         builder.ToTable("ContentVariants");
 
-        builder.HasKey(cv => cv.Id);
 
-        builder.HasOne<Content>()
+        builder.HasOne(cv => cv.Content)
             .WithMany(c => c.Variants)
-            .HasForeignKey(cv => cv.ContentId);
+            .HasForeignKey(cv => cv.ContentId)  
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

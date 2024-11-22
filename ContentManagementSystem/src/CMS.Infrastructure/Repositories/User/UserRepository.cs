@@ -22,7 +22,7 @@ public class UserRepository : IUserRepository
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task DeleteUserAsync(int userId)
+    public async Task DeleteUserAsync(Guid userId)
     {
         var user = await _genericRepository.GetByIdAsync(userId);
         _genericRepository.Remove(user);
@@ -42,13 +42,13 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public async Task<Domain.Models.User.User> GetUserByIdAsync(int userId)
+    public async Task<Domain.Models.User.User> GetUserByIdAsync(Guid userId)
     {
         var user = await _genericRepository.GetByIdAsync(userId);
         return user;
     }
 
-    public async Task<IEnumerable<Domain.Models.Content.Content>> GetUserContentAsync(int userId)
+    public async Task<IEnumerable<Domain.Models.Content.Content>> GetUserContentAsync(Guid userId)
     {
         var user = await _genericRepository.Where(x => x.Id == userId)
             .Include(u => u.UserContents)

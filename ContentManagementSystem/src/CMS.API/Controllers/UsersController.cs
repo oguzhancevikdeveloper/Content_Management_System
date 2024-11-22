@@ -17,7 +17,7 @@ public class UsersController : CustomBaseController
     }
 
     [HttpGet]
-    public  async Task<IActionResult> GetUserById(int userId)
+    public  async Task<IActionResult> GetUserById(Guid userId)
     {
         return ActionResultInstance(await _userService.GetUserByIdAsync(userId));
     }
@@ -41,19 +41,19 @@ public class UsersController : CustomBaseController
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateUser(int userId,UserDto userDto)
+    public async Task<IActionResult> UpdateUser(Guid userId,UserDto userDto)
     {
         return ActionResultInstance(await _userService.UpdateUserAsync(userId, userDto));
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteUser(int userId)
+    public async Task<IActionResult> DeleteUser(Guid userId)
     {
         return ActionResultInstance(await _userService.DeleteUserAsync(userId));
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetUserContentAsync(int userId)
+    public async Task<IActionResult> GetUserContentAsync(Guid userId)
     {
         return ActionResultInstance(await _userService.GetUserContentAsync(userId));
     }
