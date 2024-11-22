@@ -9,20 +9,17 @@ public class UserContentConfiguration : IEntityTypeConfiguration<UserContent>
     public void Configure(EntityTypeBuilder<UserContent> builder)
     {
 
-        builder.HasOne(uc => uc.Content)
-            .WithMany(c => c.UserContents)
-            .HasForeignKey(uc => uc.ContentId)
-            .OnDelete(DeleteBehavior.NoAction); 
+        builder.ToTable("UserContents");
 
-
-        builder.HasOne(uc => uc.ContentVariant)
-            .WithMany(cv => cv.UserContents)
-            .HasForeignKey(uc => uc.ContentVariantId)
-            .OnDelete(DeleteBehavior.NoAction); 
+        builder.HasKey(uc => uc.Id);
 
         builder.HasOne(uc => uc.User)
             .WithMany(u => u.UserContents)
-            .HasForeignKey(uc => uc.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .HasForeignKey(uc => uc.UserId);
+
+        builder.HasOne(uc => uc.Content)
+            .WithMany(c => c.UserContents)
+            .HasForeignKey(uc => uc.ContentId);
+
     }
 }

@@ -11,7 +11,7 @@ namespace CMS.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,7 +21,7 @@ namespace CMS.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,9 +54,9 @@ namespace CMS.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Contents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contents_Category_CategoryId",
+                        name: "FK_Contents_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -153,7 +153,7 @@ namespace CMS.Infrastructure.Migrations
                 name: "Contents");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
         }
     }
 }

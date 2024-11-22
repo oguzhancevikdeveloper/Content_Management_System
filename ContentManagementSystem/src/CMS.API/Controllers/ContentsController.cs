@@ -28,10 +28,10 @@ public class ContentsController : CustomBaseController
         return ActionResultInstance(await _contentService.GetAllContentsAsync());
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddContent(ContentDto contentDto)
+    [HttpPost("{userId}")]
+    public async Task<IActionResult> AddContent(int userId, [FromBody]ContentDto contentDto)
     {
-        return ActionResultInstance(await _contentService.AddContentAsync(contentDto));
+        return ActionResultInstance(await _contentService.AddContentAsync(userId, contentDto));
     }
 
     [HttpPut]

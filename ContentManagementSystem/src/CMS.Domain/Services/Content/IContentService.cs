@@ -11,7 +11,7 @@ public interface IContentService
     Task<Response<IEnumerable<ContentVariantDto>>> GetContentVariantsAsync(int contentId);
     Task<Response<IEnumerable<ContentDto>>> GetContentsByLanguageAsync(string language);
     Task<Response<ContentDto>> GetContentByTitleAsync(string title);
-    Task<Response<NoDataDto>> AddContentAsync(ContentDto contentDto); 
+    Task<Response<NoDataDto>> AddContentAsync(int userId, ContentDto contentDto); 
     Task<Response<NoDataDto>> UpdateContentAsync(int contentId, ContentDto contentDto); 
     Task<Response<NoDataDto>> DeleteContentAsync(int contentId); 
 }

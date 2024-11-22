@@ -1,4 +1,5 @@
-﻿using CMS.Domain.Models.Content;
+﻿using CMS.Domain.Models.Category;
+using CMS.Domain.Models.Content;
 using CMS.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<ContentVariant> ContentVariants { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserContent> UserContents { get; set; }
+    public DbSet<Category>  Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

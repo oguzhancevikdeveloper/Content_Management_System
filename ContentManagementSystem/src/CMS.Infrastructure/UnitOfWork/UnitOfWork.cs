@@ -1,13 +1,13 @@
 ﻿using CMS.Domain.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
+using CMS.Infrastructure.Context;
 
 namespace CMS.Infrastructure.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _dbContext;
+    private readonly AppDbContext _dbContext;
 
-    public UnitOfWork(DbContext dbContext)
+    public UnitOfWork(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }

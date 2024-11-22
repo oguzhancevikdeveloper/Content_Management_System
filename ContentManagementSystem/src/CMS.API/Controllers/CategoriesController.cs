@@ -17,9 +17,9 @@ public class CategoriesController : CustomBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategoryByIdAsync(int userId)
+    public async Task<IActionResult> GetCategoryByIdAsync(int categoryId)
     {
-        return ActionResultInstance(await _categoryService.GetCategoryByIdAsync(userId));
+        return ActionResultInstance(await _categoryService.GetCategoryByIdAsync(categoryId));
     }
 
     [HttpGet]

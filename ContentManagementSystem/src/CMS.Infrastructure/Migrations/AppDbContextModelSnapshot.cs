@@ -39,7 +39,7 @@ namespace CMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("CMS.Domain.Models.Content.Content", b =>

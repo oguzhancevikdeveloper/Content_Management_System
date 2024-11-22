@@ -14,5 +14,6 @@ public class Content
     public Category.Category  Category { get; set; }
     public ICollection<ContentVariant> Variants { get; set; }
     public ICollection<UserContent> UserContents { get; set; }
+
 }
 

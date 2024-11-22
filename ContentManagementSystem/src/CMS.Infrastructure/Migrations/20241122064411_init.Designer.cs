@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMS.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241121154519_init")]
+    [Migration("20241122064411_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace CMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("CMS.Domain.Models.Content.Content", b =>

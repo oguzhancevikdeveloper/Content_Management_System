@@ -8,15 +8,12 @@ internal class ContentVariantConfiguration : IEntityTypeConfiguration<ContentVar
 {
     public void Configure(EntityTypeBuilder<ContentVariant> builder)
     {
+        builder.ToTable("ContentVariants");
 
-        builder.HasOne(cv => cv.Content)
+        builder.HasKey(cv => cv.Id);
+
+        builder.HasOne<Content>()
             .WithMany(c => c.Variants)
-            .HasForeignKey(cv => cv.ContentId)
-            .OnDelete(DeleteBehavior.Cascade); 
-
-        builder.HasMany(cv => cv.UserContents)
-            .WithOne(uc => uc.ContentVariant)
-            .HasForeignKey(uc => uc.ContentVariantId)
-            .OnDelete(DeleteBehavior.NoAction); 
+            .HasForeignKey(cv => cv.ContentId);
     }
 }

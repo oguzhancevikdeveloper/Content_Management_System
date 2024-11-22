@@ -1,5 +1,8 @@
 ﻿using CMS.Domain.DTOs.Content;
+using CMS.Domain.Models.Content;
+using CMS.Domain.Models.User;
 using CMS.Domain.Repositories.Content;
+using CMS.Domain.Repositories.User;
 using CMS.Domain.Services.Content;
 using CMS.Shared.DTOs;
 using Mapster;
@@ -10,16 +13,33 @@ namespace CMS.Application.Services.Content;
 public class ContentService : IContentService
 {
     private readonly IContentRepository _contentRepository;
+    private readonly IUserContentRepository _userContentRepository;
+    private readonly IUserRepository _userRepository;
 
-    public ContentService(IContentRepository contentRepository)
+    public ContentService(IContentRepository contentRepository, IUserContentRepository userContentRepository, IUserRepository userRepository)
     {
         _contentRepository = contentRepository;
+        _userContentRepository = userContentRepository;
+        _userRepository = userRepository;
     }
 
-    public async Task<Response<NoDataDto>> AddContentAsync(ContentDto contentDto)
+    public async Task<Response<NoDataDto>> AddContentAsync(int userId,ContentDto contentDto)
     {
         var content = contentDto.Adapt<Domain.Models.Content.Content>();
+        var contentVariants = contentDto.contentVariantDtos.Adapt<List<ContentVariant>>();
+
+        content.Variants = contentVariants;
+
         await _contentRepository.AddContentAsync(content);
+        var user  = await _userRepository.GetUserByIdAsync(userId);
+
+        var userContent = new UserContent
+        {
+            Content = content,
+            User = user
+        };
+        await _userContentRepository.AddUserContentAsync(userContent);
+
         return Response<NoDataDto>.Success(StatusCodes.Status201Created);
     }
 

@@ -1,6 +1,8 @@
+using CMS.Application.Mapper;
 using CMS.Application.Services.Category;
 using CMS.Application.Services.Content;
 using CMS.Application.Services.User;
+using CMS.Domain.Models.User;
 using CMS.Domain.Repositories.Category;
 using CMS.Domain.Repositories.Content;
 using CMS.Domain.Repositories.Generic;
@@ -15,9 +17,17 @@ using CMS.Infrastructure.Repositories.Content;
 using CMS.Infrastructure.Repositories.Generic;
 using CMS.Infrastructure.Repositories.User;
 using CMS.Infrastructure.UnitOfWork;
+using CMS.Shared.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -28,11 +38,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         });
 });
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+MappingConfig.ConfigureMappings();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -41,9 +47,11 @@ builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IContentRepository, ContentRepository>();
+builder.Services.AddScoped<IUserContentRepository, UserContentRepository>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 
 
 var app = builder.Build();
@@ -54,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.CustomException();
+app.UseCustomException();
 
 app.UseHttpsRedirection();
 
