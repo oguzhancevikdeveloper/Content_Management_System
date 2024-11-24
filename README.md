@@ -10,6 +10,7 @@ Bu proje, kullanıcıların içerik ve varyantlarını yönetebildiği bir içer
 - Varyant yönetimi (ekleme, güncelleme, silme)
 - In-Memory Cache desteği
 - Repository-Pattern
+- SOLID 
 
 ## 🛠️ Kullanılan Teknolojiler
 
