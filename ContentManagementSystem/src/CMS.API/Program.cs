@@ -38,6 +38,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         });
 });
 
+builder.Services.AddMemoryCache();
+
 MappingConfig.ConfigureMappings();
 
 builder.Services.AddScoped<IUserService, UserService>();

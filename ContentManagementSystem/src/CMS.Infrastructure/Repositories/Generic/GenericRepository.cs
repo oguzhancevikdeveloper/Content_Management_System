@@ -35,6 +35,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         _dbset.Remove(entity);
     }
+
+    public void RemoveRange(IEnumerable<TEntity> entities)
+    {
+        if (entities == null || !entities.Any())
+            throw new ArgumentNullException(nameof(entities), "Entities cannot be null or empty");
+
+        _context.RemoveRange(entities);
+    }
+
     public TEntity Update(TEntity entity)
     {
         _context.Entry(entity).State = EntityState.Modified;
@@ -43,6 +52,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     }
     public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
     {
-        return _dbset.Where(predicate);
+        return _dbset.AsNoTracking().Where(predicate);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CMS.Domain.DTOs.Content;
+using CMS.Domain.Models.User;
 using CMS.Domain.Services.Content;
 using CMS.Shared.Configuration;
 using Microsoft.AspNetCore.Mvc;
@@ -34,16 +35,16 @@ public class ContentsController : CustomBaseController
         return ActionResultInstance(await _contentService.AddContentAsync(userId, contentDto));
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateContent(Guid contentId,ContentDto contentDto)
+    [HttpPut("{userId}")]
+    public async Task<IActionResult> UpdateContent(Guid userId, Guid contentId,ContentDto contentDto)
     {
-        return ActionResultInstance(await _contentService.UpdateContentAsync(contentId, contentDto));
+        return ActionResultInstance(await _contentService.UpdateContentAsync(userId, contentId, contentDto));
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteContentAsync(Guid contentId)
+    [HttpDelete("{userId}")]
+    public async Task<IActionResult> DeleteContentAsync(Guid contentId, Guid userId)
     {
-        return ActionResultInstance(await _contentService.DeleteContentAsync(contentId));
+        return ActionResultInstance(await _contentService.DeleteContentAsync(contentId:contentId,userId:userId));
     }
 
     [HttpGet]

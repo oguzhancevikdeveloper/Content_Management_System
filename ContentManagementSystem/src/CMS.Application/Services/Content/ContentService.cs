@@ -1,6 +1,7 @@
 ﻿using CMS.Domain.DTOs.Content;
 using CMS.Domain.Models.Content;
 using CMS.Domain.Models.User;
+using CMS.Domain.Repositories.Category;
 using CMS.Domain.Repositories.Content;
 using CMS.Domain.Repositories.User;
 using CMS.Domain.Services.Content;
@@ -15,12 +16,14 @@ public class ContentService : IContentService
     private readonly IContentRepository _contentRepository;
     private readonly IUserContentRepository _userContentRepository;
     private readonly IUserRepository _userRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public ContentService(IContentRepository contentRepository, IUserContentRepository userContentRepository, IUserRepository userRepository)
+    public ContentService(IContentRepository contentRepository, IUserContentRepository userContentRepository, IUserRepository userRepository, ICategoryRepository categoryRepository)
     {
         _contentRepository = contentRepository;
         _userContentRepository = userContentRepository;
         _userRepository = userRepository;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<Response<NoDataDto>> AddContentAsync(Guid userId, ContentDto contentDto)
@@ -48,11 +51,14 @@ public class ContentService : IContentService
         return Response<NoDataDto>.Success(StatusCodes.Status201Created);
     }
 
-    public async Task<Response<NoDataDto>> DeleteContentAsync(Guid contentId)
+    public async Task<Response<NoDataDto>> DeleteContentAsync(Guid contentId, Guid userId)
     {
-        var content = await _contentRepository.GetContentByIdAsync(contentId);
+        var content = await _userContentRepository.GetUserContentByIdsAsync(contentId: contentId, userId: userId);
+
         if (content == null) return Response<NoDataDto>.Fail("Content not found", StatusCodes.Status404NotFound, true);
-        await _contentRepository.DeleteContentAsync(contentId);
+
+
+        await _userContentRepository.DeleteUserContentAsync(userId: userId, contentId: contentId);
 
         return Response<NoDataDto>.Success(StatusCodes.Status200OK);
     }
@@ -115,13 +121,22 @@ public class ContentService : IContentService
         return Response<IEnumerable<ContentVariantDto>>.Success(contentVariantDtos, StatusCodes.Status200OK);
     }
 
-    public async Task<Response<NoDataDto>> UpdateContentAsync(Guid contentId, ContentDto contentDto)
+    public async Task<Response<NoDataDto>> UpdateContentAsync(Guid userId, Guid contentId, ContentDto contentDto)
     {
+        var categoryIsExist = await _categoryRepository.GetCategoryByIdAsync(contentDto.CategoryId);
+        if (categoryIsExist == null) return Response<NoDataDto>.Fail("Category not found", StatusCodes.Status404NotFound, true);
+
+        var userContentIsExist = await _userContentRepository.GetUserContentByIdsAsync(userId, contentId);
+        if (userContentIsExist == null) return Response<NoDataDto>.Fail("User Content not found", StatusCodes.Status404NotFound, true);
+
         var existingContent = await _contentRepository.GetContentByIdAsync(contentId);
         if (existingContent == null) return Response<NoDataDto>.Fail("Content not found", StatusCodes.Status404NotFound, true);
+
         contentDto.Adapt(existingContent);
+
         foreach (var item in existingContent.Variants)
         {
+            item.Content = existingContent;
             item.ContentId = existingContent.Id;
         }
 

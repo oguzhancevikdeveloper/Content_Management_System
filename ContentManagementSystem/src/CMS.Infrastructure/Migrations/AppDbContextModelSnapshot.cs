@@ -133,11 +133,16 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ContentId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserContents", (string)null);
                 });
@@ -158,7 +163,7 @@ namespace CMS.Infrastructure.Migrations
                     b.HasOne("CMS.Domain.Models.Content.Content", "Content")
                         .WithMany("Variants")
                         .HasForeignKey("ContentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Content");
@@ -173,10 +178,14 @@ namespace CMS.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("CMS.Domain.Models.User.User", "User")
-                        .WithMany("UserContents")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("CMS.Domain.Models.User.User", null)
+                        .WithMany("UserContents")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Content");
 

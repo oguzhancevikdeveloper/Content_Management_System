@@ -9,18 +9,22 @@ namespace CMS.Infrastructure.Repositories.Content;
 public class ContentRepository : IContentRepository
 {
     private readonly IGenericRepository<Domain.Models.Content.Content> _genericRepository;
+    private readonly IGenericRepository<ContentVariant> _genericContentVariantRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ContentRepository(IGenericRepository<Domain.Models.Content.Content> genericRepository, IUnitOfWork unitOfWork)
+    public ContentRepository(IGenericRepository<Domain.Models.Content.Content> genericRepository, IUnitOfWork unitOfWork, IGenericRepository<ContentVariant> genericContentVariantRepository)
     {
         _genericRepository = genericRepository;
         _unitOfWork = unitOfWork;
+        _genericContentVariantRepository = genericContentVariantRepository;
     }
 
     public async Task AddContentAsync(Domain.Models.Content.Content content)
     {
+
         await _genericRepository.AddAsync(content);
         await _unitOfWork.CommitAsync();
+
     }
 
     public async Task DeleteContentAsync(Guid contentId)
@@ -37,7 +41,7 @@ public class ContentRepository : IContentRepository
 
     public async Task<Domain.Models.Content.Content> GetContentByIdAsync(Guid contentId)
     {
-        var content = await _genericRepository.Where(x => x.Id == contentId).Include(v => v.Variants).FirstOrDefaultAsync();
+        var content = await _genericRepository.Where(x => x.Id == contentId).Include(x => x.Category).Include(v => v.Variants).FirstOrDefaultAsync();
         return content;
     }
 
@@ -70,6 +74,7 @@ public class ContentRepository : IContentRepository
     public async Task UpdateContentAsync(Domain.Models.Content.Content content)
     {
         _genericRepository.Update(content);
+        foreach (var item in content.Variants) _genericContentVariantRepository.Update(item);
         await _unitOfWork.CommitAsync();
     }
 }

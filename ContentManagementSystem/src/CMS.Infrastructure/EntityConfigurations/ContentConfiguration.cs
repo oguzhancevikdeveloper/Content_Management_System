@@ -1,4 +1,5 @@
 ﻿using CMS.Domain.Models.Content;
+using CMS.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,5 +37,11 @@ public class ContentConfiguration : IEntityTypeConfiguration<Content>
             .WithMany(c => c.Contents)
             .HasForeignKey(c => c.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
+
+
+        builder.HasMany<UserContent>() 
+               .WithOne(uc => uc.Content)
+               .HasForeignKey(uc => uc.ContentId)
+               .OnDelete(DeleteBehavior.Cascade); 
     }
 }

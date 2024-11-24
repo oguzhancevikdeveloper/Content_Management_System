@@ -74,7 +74,8 @@ namespace CMS.Infrastructure.Migrations
                         name: "FK_ContentVariants_Contents_ContentId",
                         column: x => x.ContentId,
                         principalTable: "Contents",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,7 +84,8 @@ namespace CMS.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ContentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ContentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,7 +101,12 @@ namespace CMS.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserContents_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -121,6 +128,11 @@ namespace CMS.Infrastructure.Migrations
                 name: "IX_UserContents_UserId",
                 table: "UserContents",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserContents_UserId1",
+                table: "UserContents",
+                column: "UserId1");
         }
 
         /// <inheritdoc />

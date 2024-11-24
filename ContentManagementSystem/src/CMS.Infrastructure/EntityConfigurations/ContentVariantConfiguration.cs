@@ -15,5 +15,10 @@ internal class ContentVariantConfiguration : IEntityTypeConfiguration<ContentVar
             .WithMany(c => c.Variants)
             .HasForeignKey(cv => cv.ContentId)  
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(cv => cv.Content)
+               .WithMany(c => c.Variants)
+               .HasForeignKey(cv => cv.ContentId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }

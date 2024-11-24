@@ -52,7 +52,7 @@ public class UserRepository : IUserRepository
     {
         var user = await _genericRepository.Where(x => x.Id == userId)
             .Include(u => u.UserContents)
-            .ThenInclude(uc => uc.Content)
+            .ThenInclude(uc => uc.Content).ThenInclude(v => v.Variants)
             .FirstOrDefaultAsync();
 
         if(user == null || user.UserContents == null || !user.UserContents.Any()) return Enumerable.Empty<Domain.Models.Content.Content>();
