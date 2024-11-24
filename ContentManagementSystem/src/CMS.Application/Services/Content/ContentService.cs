@@ -29,10 +29,10 @@ public class ContentService : IContentService
         _cacheHelper = cacheHelper;
     }
 
-    public async Task<Response<NoDataDto>> AddContentAsync(Guid userId, ContentDto contentDto)
+    public async Task<Response<NoDataDto>> AddContentAsync(Guid userId, CreateContentDto  createContentDto)
     {
-        var content = contentDto.Adapt<Domain.Models.Content.Content>();
-        var contentVariants = contentDto.contentVariantDtos.Adapt<List<ContentVariant>>();
+        var content = createContentDto.Adapt<Domain.Models.Content.Content>();
+        var contentVariants = createContentDto.createContentVariantDtos.Adapt<List<ContentVariant>>();
 
         content.Variants = contentVariants;
         foreach (var item in contentVariants)

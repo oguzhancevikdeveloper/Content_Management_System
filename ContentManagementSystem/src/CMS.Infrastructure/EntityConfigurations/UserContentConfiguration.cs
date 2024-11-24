@@ -13,11 +13,11 @@ public class UserContentConfiguration : IEntityTypeConfiguration<UserContent>
 
         builder.HasKey(uc => uc.Id);
 
-        // Foreign Key: User -> UserContent (Silme işlemini engelle)
-        builder.HasOne(uc => uc.User)
-               .WithMany() // User'dan birden fazla UserContent olabilir
-               .HasForeignKey(uc => uc.UserId)
-               .OnDelete(DeleteBehavior.Restrict); // Kullanıcıyı silmeye izin verme
+        //// Foreign Key: User -> UserContent (Silme işlemini engelle)
+        //builder.HasOne(uc => uc.User)
+        //       .WithMany() // User'dan birden fazla UserContent olabilir
+        //       .HasForeignKey(uc => uc.UserId)
+        //       .OnDelete(DeleteBehavior.Restrict); // Kullanıcıyı silmeye izin verme
 
 
         builder.HasOne(uc => uc.Content)

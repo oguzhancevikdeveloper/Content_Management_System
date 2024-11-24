@@ -28,5 +28,22 @@ public class MappingConfig
         TypeAdapterConfig<Content, ContentDto>
             .NewConfig()
             .Map(dest => dest.contentVariantDtos, src => src.Variants);
+
+        TypeAdapterConfig<CreateContentDto, Domain.Models.Content.Content>
+               .NewConfig()
+            .Map(dest => dest.Variants, src => src.createContentVariantDtos);
+
+        TypeAdapterConfig<CreateContentVariantDto, ContentVariant>
+            .NewConfig()
+            .Map(dest => dest.Variant, src => src.Variant);
+
+
+        TypeAdapterConfig<Content, ContentDto>.NewConfig()
+            .Map(dest => dest.contentVariantDtos,
+         src => src.Variants.Adapt<List<ContentVariantDto>>());
+
+        TypeAdapterConfig<ContentVariant, ContentVariantDto>.NewConfig()
+            .Map(dest => dest.VariantId, src => src.Id)
+            .Map(dest => dest.Variant, src => src.Variant);
     }
 }
