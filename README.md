@@ -2,6 +2,15 @@
 
 Bu proje, kullanıcıların içerik ve varyantlarını yönetebildiği bir içerik yönetim sistemidir. 
 
+## Notes
+1. **Content Language**: When entering a content language, the maximum length allowed is 5 characters.
+2. **Technologies Used**: The project uses **GitHub Actions** for CI/CD and **Azure** for cloud hosting, specifically for build and deployment.
+3. **API Address**: You can access the API documentation at the following URL:  
+   [Content Management API](https://conent-managment-api-hxbfedebfedjd6bd.eastus-01.azurewebsites.net/swagger/index.html)
+
+## Setup Instructions
+...
+
 ## 🚀 Proje Özellikleri
 
 - Kullanıcı içeriklerini listeleme
