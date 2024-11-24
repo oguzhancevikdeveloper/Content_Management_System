@@ -4,7 +4,7 @@ Bu proje, kullanıcıların içerik ve varyantlarını yönetebildiği bir içer
 
 ## Notlar
 1. **İçerik Dili**: İçerik dili girerken en fazla 5 karakter girilmelidir.
-2. **Kullanılan Teknolojiler**: Proje, **GitHub Actions** kullanılarak sürekli entegrasyon ve dağıtım (CI/CD) işlemleri yapılmış ve **Azure** teknolojisiyle bulut üzerinde barındırılmaktadır.
+2. **Proje, **GitHub Actions** kullanılarak sürekli entegrasyon ve dağıtım (CI/CD) işlemleri yapılmış ve **Azure** teknolojisiyle bulut üzerinde barındırılmaktadır.
 3. **API Adresi**: API dökümantasyonuna şu URL'den erişebilirsiniz:  
    [Content Management API](https://conent-managment-api-hxbfedebfedjd6bd.eastus-01.azurewebsites.net/swagger/index.html)
 
