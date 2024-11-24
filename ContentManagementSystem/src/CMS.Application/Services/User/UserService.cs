@@ -3,6 +3,7 @@ using CMS.Domain.DTOs.User;
 using CMS.Domain.Repositories.User;
 using CMS.Domain.Services.User;
 using CMS.Shared.DTOs;
+using CMS.Shared.Helper.Cache;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 
@@ -11,10 +12,12 @@ namespace CMS.Application.Services.User;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly CacheHelper _cacheHelper;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, CacheHelper cacheHelper)
     {
         _userRepository = userRepository;
+        _cacheHelper = cacheHelper;
     }
 
     public async Task<Response<NoDataDto>> AddUserAsync(UserDto userDto)
@@ -56,11 +59,24 @@ public class UserService : IUserService
 
     public async Task<Response<IEnumerable<ContentDto>>> GetUserContentAsync(Guid userId)
     {
-        var contentList = await _userRepository.GetUserContentAsync(userId);
+        var cacheKey = $"UserContent_{userId}";
 
-        if (contentList == null || !contentList.Any()) return Response<IEnumerable<ContentDto>>.Fail("No content found for the user.", StatusCodes.Status404NotFound, true);
+        var cachedContentList = _cacheHelper.Get<IEnumerable<Domain.Models.Content.Content>>(cacheKey);
+        if (cachedContentList != null && cachedContentList.Any())
+        {
+            var cachedContentDtoList = cachedContentList.Adapt<IEnumerable<ContentDto>>();
+            return Response<IEnumerable<ContentDto>>.Success(cachedContentDtoList, StatusCodes.Status200OK);
+        }
+        var contentList = await _userRepository.GetUserContentAsync(userId);
+        if (contentList == null || !contentList.Any())
+        {
+            return Response<IEnumerable<ContentDto>>.Fail("No content found for the user.", StatusCodes.Status404NotFound, true);
+        }
 
         var contentDtoList = contentList.Adapt<IEnumerable<ContentDto>>();
+
+        _cacheHelper.Set(cacheKey, contentList);
+
         return Response<IEnumerable<ContentDto>>.Success(contentDtoList, StatusCodes.Status200OK);
     }
 

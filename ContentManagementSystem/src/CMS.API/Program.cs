@@ -18,6 +18,7 @@ using CMS.Infrastructure.Repositories.Generic;
 using CMS.Infrastructure.Repositories.User;
 using CMS.Infrastructure.UnitOfWork;
 using CMS.Shared.Exceptions;
+using CMS.Shared.Helper.Cache;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddMemoryCache();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -45,7 +46,7 @@ MappingConfig.ConfigureMappings();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IContentService, ContentService>();
-
+builder.Services.AddSingleton<CacheHelper>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IContentRepository, ContentRepository>();

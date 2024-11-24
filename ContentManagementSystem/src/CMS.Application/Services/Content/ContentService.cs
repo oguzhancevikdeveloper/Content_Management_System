@@ -6,6 +6,7 @@ using CMS.Domain.Repositories.Content;
 using CMS.Domain.Repositories.User;
 using CMS.Domain.Services.Content;
 using CMS.Shared.DTOs;
+using CMS.Shared.Helper.Cache;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 
@@ -17,13 +18,15 @@ public class ContentService : IContentService
     private readonly IUserContentRepository _userContentRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly CacheHelper _cacheHelper;
 
-    public ContentService(IContentRepository contentRepository, IUserContentRepository userContentRepository, IUserRepository userRepository, ICategoryRepository categoryRepository)
+    public ContentService(IContentRepository contentRepository, IUserContentRepository userContentRepository, IUserRepository userRepository, ICategoryRepository categoryRepository, CacheHelper cacheHelper)
     {
         _contentRepository = contentRepository;
         _userContentRepository = userContentRepository;
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
+        _cacheHelper = cacheHelper;
     }
 
     public async Task<Response<NoDataDto>> AddContentAsync(Guid userId, ContentDto contentDto)
@@ -74,12 +77,20 @@ public class ContentService : IContentService
 
     public async Task<Response<ContentDto>> GetContentByIdAsync(Guid contentId)
     {
+        var cacheKey = $"Content_{contentId}";
+        var cachedContent = _cacheHelper.Get<Domain.Models.Content.Content>(cacheKey);
+        if (cachedContent != null)
+        {
+            var cachedContentDto = cachedContent.Adapt<ContentDto>();
+            return Response<ContentDto>.Success(cachedContentDto, StatusCodes.Status200OK);
+        }
+
         var content = await _contentRepository.GetContentByIdAsync(contentId);
         if (content == null) return Response<ContentDto>.Fail("Content not found", StatusCodes.Status404NotFound, true);
+
         var contentDto = content.Adapt<ContentDto>();
-
+        _cacheHelper.Set(cacheKey, content);
         return Response<ContentDto>.Success(contentDto, StatusCodes.Status200OK);
-
     }
 
     public async Task<Response<ContentDto>> GetContentByTitleAsync(string title)
