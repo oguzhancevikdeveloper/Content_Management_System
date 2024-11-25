@@ -8,6 +8,11 @@ Bu proje, kullanıcıların içerik ve varyantlarını yönetebildiği bir içer
 3. **API Adresi**: API dökümantasyonuna şu URL'den erişebilirsiniz:  
    [Content Management API](https://conent-managment-api-hxbfedebfedjd6bd.eastus-01.azurewebsites.net/swagger/index.html)
 
+## In-Memory Cache Kullanımı
+Aşağıdaki endpointler In-Memory Cache kullanmaktadır:
+- **GetContentByIdAsync**  
+- **GetUserContentAsync**
+
 ## 🚀 Proje Özellikleri
 
 - Kullanıcı içeriklerini listeleme
